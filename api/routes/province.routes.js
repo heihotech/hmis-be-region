@@ -1,4 +1,4 @@
-const controller = require("../controllers/province.controller");
+const controller = require("../controllers/province.controllers");
 
 module.exports = function (app) {
   app.use(function (req, res, next) {
@@ -9,49 +9,13 @@ module.exports = function (app) {
     next();
   });
 
-  app.get(
-    "/api/provinces",
-    [
-      //   authJwt.verifyToken,
-      //   authJwt.isSimrs,
-    ],
-    controller.findAllProvinces
-  );
+  app.get("/api/provinces", [], controller.findAllProvinces);
 
-  app.get(
-    "/api/provinces/:provinceId",
-    [
-      //   authJwt.verifyToken,
-      //   authJwt.isSimrs,
-    ],
-    controller.findProvince
-  );
+  app.get("/api/provinces/:provinceId", [], controller.findProvince);
 
-  app.post(
-    "/api/provinces",
-    [
-      //   authJwt.verifyToken,
-      //   authJwt.isSimrs,
-    ],
-    controller.createProvince
-  );
+  app.post("/api/provinces", [], controller.createProvince);
 
-  app.put(
-    "/api/provinces/:provinceId",
-    [
-      //   joiValidate.validate(joiValidate.schemas.category.categoryUpdatePOST),
-      //   authJwt.verifyToken,
-      //   authJwt.isSimrs,
-    ],
-    controller.updateProvince
-  );
+  app.put("/api/provinces/:provinceId", [], controller.updateProvince);
 
-  app.delete(
-    "/api/provinces/:provinceId",
-    [
-      //   authJwt.verifyToken,
-      //   authJwt.isSimrs,
-    ],
-    controller.deleteProvince
-  );
+  app.delete("/api/provinces/:provinceId", [], controller.deleteProvince);
 };

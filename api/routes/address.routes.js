@@ -1,4 +1,4 @@
-const controller = require("../controllers/address.controller");
+const controller = require("../controllers/address.controllers");
 
 module.exports = function (app) {
   app.use(function (req, res, next) {
@@ -9,49 +9,13 @@ module.exports = function (app) {
     next();
   });
 
-  app.get(
-    "/api/addresses",
-    [
-      //   authJwt.verifyToken,
-      //   authJwt.isSimrs,
-    ],
-    controller.findAllAddresses
-  );
+  app.get("/api/addresses", [], controller.findAllAddresses);
 
-  app.get(
-    "/api/addresses/:addressId",
-    [
-      //   authJwt.verifyToken,
-      //   authJwt.isSimrs,
-    ],
-    controller.findAddress
-  );
+  app.get("/api/addresses/:addressId", [], controller.findAddress);
 
-  app.post(
-    "/api/addresses",
-    [
-      //   authJwt.verifyToken,
-      //   authJwt.isSimrs,
-    ],
-    controller.createAddress
-  );
+  app.post("/api/addresses", [], controller.createAddress);
 
-  app.put(
-    "/api/addresses/:addressId",
-    [
-      //   joiValidate.validate(joiValidate.schemas.category.categoryUpdatePOST),
-      //   authJwt.verifyToken,
-      //   authJwt.isSimrs,
-    ],
-    controller.updateAddress
-  );
+  app.put("/api/addresses/:addressId", [], controller.updateAddress);
 
-  app.delete(
-    "/api/addresses/:addressId",
-    [
-      //   authJwt.verifyToken,
-      //   authJwt.isSimrs,
-    ],
-    controller.deleteAddress
-  );
+  app.delete("/api/addresses/:addressId", [], controller.deleteAddress);
 };

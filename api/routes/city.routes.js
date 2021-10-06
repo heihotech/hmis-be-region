@@ -1,4 +1,4 @@
-const controller = require("../controllers/city.controller");
+const controller = require("../controllers/city.controllers");
 
 module.exports = function (app) {
   app.use(function (req, res, next) {
@@ -9,49 +9,13 @@ module.exports = function (app) {
     next();
   });
 
-  app.get(
-    "/api/cities",
-    [
-      //   authJwt.verifyToken,
-      //   authJwt.isSimrs,
-    ],
-    controller.findAllCity
-  );
+  app.get("/api/cities", [], controller.findAllCity);
 
-  app.get(
-    "/api/cities/:cityId",
-    [
-      //   authJwt.verifyToken,
-      //   authJwt.isSimrs,
-    ],
-    controller.findCity
-  );
+  app.get("/api/cities/:cityId", [], controller.findCity);
 
-  app.post(
-    "/api/cities",
-    [
-      //   authJwt.verifyToken,
-      //   authJwt.isSimrs,
-    ],
-    controller.createCity
-  );
+  app.post("/api/cities", [], controller.createCity);
 
-  app.put(
-    "/api/cities/:cityId",
-    [
-      //   joiValidate.validate(joiValidate.schemas.category.categoryUpdatePOST),
-      //   authJwt.verifyToken,
-      //   authJwt.isSimrs,
-    ],
-    controller.updateCity
-  );
+  app.put("/api/cities/:cityId", [], controller.updateCity);
 
-  app.delete(
-    "/api/cities/:cityId",
-    [
-      //   authJwt.verifyToken,
-      //   authJwt.isSimrs,
-    ],
-    controller.deleteCity
-  );
+  app.delete("/api/cities/:cityId", [], controller.deleteCity);
 };

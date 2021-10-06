@@ -84,10 +84,6 @@ exports.findDistrict = async (req, res) => {
         },
         attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
       },
-      {
-        model: Village,
-        attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
-      },
     ],
   })
     .then((data) => {

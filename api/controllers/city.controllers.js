@@ -81,10 +81,6 @@ exports.findCity = async (req, res) => {
         model: Province,
         attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
       },
-      {
-        model: District,
-        attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
-      },
     ],
   })
     .then((data) => {

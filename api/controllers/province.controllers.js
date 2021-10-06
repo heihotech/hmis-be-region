@@ -66,12 +66,7 @@ exports.findAllProvinces = async (req, res) => {
 };
 
 exports.findProvince = async (req, res) => {
-  await Province.findByPk(req.params.provinceId, {
-    include: {
-      model: City,
-      attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
-    },
-  })
+  await Province.findByPk(req.params.provinceId, {})
     .then((data) => {
       if (data != null) {
         res.send(data);

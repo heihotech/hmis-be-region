@@ -1,4 +1,4 @@
-const controller = require("../controllers/village.controller");
+const controller = require("../controllers/village.controllers");
 
 module.exports = function (app) {
   app.use(function (req, res, next) {
@@ -9,49 +9,13 @@ module.exports = function (app) {
     next();
   });
 
-  app.get(
-    "/api/villages",
-    [
-      //   authJwt.verifyToken,
-      //   authJwt.isSimrs,
-    ],
-    controller.findAllVillages
-  );
+  app.get("/api/villages", [], controller.findAllVillages);
 
-  app.get(
-    "/api/villages/:villageId",
-    [
-      //   authJwt.verifyToken,
-      //   authJwt.isSimrs,
-    ],
-    controller.findVillage
-  );
+  app.get("/api/villages/:villageId", [], controller.findVillage);
 
-  app.post(
-    "/api/villages",
-    [
-      //   authJwt.verifyToken,
-      //   authJwt.isSimrs,
-    ],
-    controller.createVillage
-  );
+  app.post("/api/villages", [], controller.createVillage);
 
-  app.put(
-    "/api/villages/:villageId",
-    [
-      //   joiValidate.validate(joiValidate.schemas.category.categoryUpdatePOST),
-      //   authJwt.verifyToken,
-      //   authJwt.isSimrs,
-    ],
-    controller.updateVillage
-  );
+  app.put("/api/villages/:villageId", [], controller.updateVillage);
 
-  app.delete(
-    "/api/villages/:villageId",
-    [
-      //   authJwt.verifyToken,
-      //   authJwt.isSimrs,
-    ],
-    controller.deleteVillage
-  );
+  app.delete("/api/villages/:villageId", [], controller.deleteVillage);
 };

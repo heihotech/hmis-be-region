@@ -60,7 +60,6 @@ exports.findAllVillages = async (req, res) => {
     limit,
     offset,
     order: [[orderField ? orderField : "createdAt", order ? order : "DESC"]],
-    attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
     paranoid: isInactive === "true" && isInactive != null ? false : true,
   })
     .then((data) => {
@@ -83,11 +82,8 @@ exports.findVillage = async (req, res) => {
           model: City,
           include: {
             model: Province,
-            attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
           },
-          attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
         },
-        attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
       },
     ],
   })
@@ -136,7 +132,6 @@ exports.updateVillage = async (req, res) => {
   const id = req.params.villageId;
   const village = {
     name: req.body.name,
-    districtId: req.body.districtId,
   };
 
   db.sequelize
@@ -191,6 +186,38 @@ exports.deleteVillage = async (req, res) => {
       } else {
         res.send({
           message: `Cannot delete!`,
+          id,
+          status: 0,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err,
+      });
+    });
+};
+
+exports.restoreVillage = async (req, res) => {
+  const id = req.params.villageId;
+  db.sequelize
+    .transaction(async (t) => {
+      const restoredVillage = await Village.restore({
+        where: { id: id },
+        transaction: t,
+      });
+      return restoredVillage;
+    })
+    .then((num) => {
+      if (num == 1) {
+        res.send({
+          message: "restored successfully!",
+          id,
+          status: 1,
+        });
+      } else {
+        res.send({
+          message: `Cannot restore!`,
           id,
           status: 0,
         });

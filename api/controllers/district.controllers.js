@@ -59,7 +59,6 @@ exports.findAllDistricts = async (req, res) => {
     limit,
     offset,
     order: [[orderField ? orderField : "createdAt", order ? order : "DESC"]],
-    attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
     paranoid: isInactive === "true" && isInactive != null ? false : true,
   })
     .then((data) => {
@@ -80,9 +79,7 @@ exports.findDistrict = async (req, res) => {
         model: City,
         include: {
           model: Province,
-          attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
         },
-        attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
       },
     ],
   })
@@ -105,7 +102,7 @@ exports.findDistrict = async (req, res) => {
 exports.createDistrict = async (req, res) => {
   const district = {
     name: req.body.name,
-    districtId: req.body.districtId,
+    cityId: req.body.cityId,
   };
 
   db.sequelize
@@ -131,7 +128,6 @@ exports.updateDistrict = async (req, res) => {
   const id = req.params.districtId;
   const district = {
     name: req.body.name,
-    cityId: req.body.cityId,
   };
 
   db.sequelize
@@ -186,6 +182,38 @@ exports.deleteDistrict = async (req, res) => {
       } else {
         res.send({
           message: `Cannot delete!`,
+          id,
+          status: 0,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err,
+      });
+    });
+};
+
+exports.restoreDistrict = async (req, res) => {
+  const id = req.params.districtId;
+  db.sequelize
+    .transaction(async (t) => {
+      const restoredDistrict = await District.restore({
+        where: { id: id },
+        transaction: t,
+      });
+      return restoredDistrict;
+    })
+    .then((num) => {
+      if (num == 1) {
+        res.send({
+          message: "restored successfully!",
+          id,
+          status: 1,
+        });
+      } else {
+        res.send({
+          message: `Cannot restore!`,
           id,
           status: 0,
         });

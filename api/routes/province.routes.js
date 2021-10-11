@@ -18,4 +18,10 @@ module.exports = function (app) {
   app.put("/api/provinces/:provinceId", [], controller.updateProvince);
 
   app.delete("/api/provinces/:provinceId", [], controller.deleteProvince);
+
+  app.delete(
+    "/api/provinces/:provinceId/restore",
+    [],
+    controller.restoreProvince
+  );
 };

@@ -82,16 +82,12 @@ exports.findAllAddresses = async (req, res) => {
     include: [
       {
         model: Village,
-        attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
         include: {
           model: District,
-          attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
           include: {
             model: City,
-            attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
             include: {
               model: Province,
-              attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
             },
           },
         },
@@ -118,16 +114,12 @@ exports.findAddress = async (req, res) => {
     include: [
       {
         model: Village,
-        attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
         include: {
           model: District,
-          attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
           include: {
             model: City,
-            attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
             include: {
               model: Province,
-              attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
             },
           },
         },
@@ -156,7 +148,7 @@ exports.createAddress = async (req, res) => {
     rt: req.body.rt,
     rw: req.body.rw,
     zipCode: req.body.zipCode,
-    phoneNumber: req.body.phoneNumber,
+    phone: req.body.phone,
     villageId: req.body.villageId,
   };
 
@@ -198,8 +190,8 @@ exports.updateAddress = async (req, res) => {
   if (req.body.zipCode) {
     address.zipCode = req.body.zipCode;
   }
-  if (req.body.phoneNumber) {
-    address.phoneNumber = req.body.phoneNumber;
+  if (req.body.phone) {
+    address.phone = req.body.phone;
   }
   if (req.body.villageId) {
     address.villageId = req.body.villageId;
@@ -257,6 +249,38 @@ exports.deleteAddress = async (req, res) => {
       } else {
         res.send({
           message: `Cannot delete!`,
+          id,
+          status: 0,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err,
+      });
+    });
+};
+
+exports.restoreAddress = async (req, res) => {
+  const id = req.params.addressId;
+  db.sequelize
+    .transaction(async (t) => {
+      const restoredAddress = await Address.restore({
+        where: { id: id },
+        transaction: t,
+      });
+      return restoredAddress;
+    })
+    .then((num) => {
+      if (num == 1) {
+        res.send({
+          message: "restored successfully!",
+          id,
+          status: 1,
+        });
+      } else {
+        res.send({
+          message: `Cannot restore!`,
           id,
           status: 0,
         });

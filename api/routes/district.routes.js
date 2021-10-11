@@ -18,4 +18,10 @@ module.exports = function (app) {
   app.put("/api/districts/:districtId", [], controller.updateDistrict);
 
   app.delete("/api/districts/:districtId", [], controller.deleteDistrict);
+
+  app.delete(
+    "/api/districts/:districtId/restore",
+    [],
+    controller.restoreDistrict
+  );
 };

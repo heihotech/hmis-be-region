@@ -60,7 +60,6 @@ exports.findAllCity = async (req, res) => {
     limit,
     offset,
     order: [[orderField ? orderField : "createdAt", order ? order : "DESC"]],
-    attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
     paranoid: isInactive === "true" && isInactive != null ? false : true,
   })
     .then((data) => {
@@ -79,7 +78,6 @@ exports.findCity = async (req, res) => {
     include: [
       {
         model: Province,
-        attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
       },
     ],
   })
@@ -128,7 +126,6 @@ exports.updateCity = async (req, res) => {
   const id = req.params.cityId;
   const city = {
     name: req.body.name,
-    provinceId: req.body.provinceId,
   };
 
   db.sequelize
@@ -183,6 +180,38 @@ exports.deleteCity = async (req, res) => {
       } else {
         res.send({
           message: `Cannot delete!`,
+          id,
+          status: 0,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err,
+      });
+    });
+};
+
+exports.restoreCity = async (req, res) => {
+  const id = req.params.cityId;
+  db.sequelize
+    .transaction(async (t) => {
+      const restoredCity = await City.restore({
+        where: { id: id },
+        transaction: t,
+      });
+      return restoredCity;
+    })
+    .then((num) => {
+      if (num == 1) {
+        res.send({
+          message: "restored successfully!",
+          id,
+          status: 1,
+        });
+      } else {
+        res.send({
+          message: `Cannot restore!`,
           id,
           status: 0,
         });

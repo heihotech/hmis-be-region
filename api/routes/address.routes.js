@@ -18,4 +18,10 @@ module.exports = function (app) {
   app.put("/api/addresses/:addressId", [], controller.updateAddress);
 
   app.delete("/api/addresses/:addressId", [], controller.deleteAddress);
+
+  app.delete(
+    "/api/addresses/:addressId/restore",
+    [],
+    controller.restoreAddress
+  );
 };

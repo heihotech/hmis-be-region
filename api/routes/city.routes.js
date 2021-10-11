@@ -18,4 +18,6 @@ module.exports = function (app) {
   app.put("/api/cities/:cityId", [], controller.updateCity);
 
   app.delete("/api/cities/:cityId", [], controller.deleteCity);
+
+  app.delete("/api/cities/:cityId/restore", [], controller.restoreCity);
 };

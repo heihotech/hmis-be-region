@@ -60,7 +60,7 @@ exports.findAllAddresses = async (req, res) => {
 
   if (phoneNumber) {
     phoneNumberCondition = {
-      phoneNumber: { [Op.eq]: phoneNumber },
+      phone: { [Op.eq]: phoneNumber },
     };
     condition.push(phoneNumberCondition);
   }

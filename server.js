@@ -11,6 +11,11 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
+// simple route
+app.get("/api/test-conn", (req, res) => {
+  res.json({ message: "Server Up!" });
+});
+
 const db = require("./database/models");
 db.sequelize.sync();
 
